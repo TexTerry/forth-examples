@@ -1,0 +1,49 @@
+( Pascal's Triangle - single precission )
+
+( This program calculates the pascal's triangle
+  It uses single precission numbers. Therefore
+  it can only calculate up to the 13th row.
+  Perhapse I will write a double presission
+  version later. )
+
+
+: fact recursive ( n -- n )
+( calculates the factorial of n )
+
+	dup 1 > if
+		dup 1- fact *
+	else
+		drop 1
+	endif ;
+
+
+: binomial ( n n -- n )
+( Calculates the binomial coefficient of n over m
+  where n is the zero-indexed row and m is the zero-indexed
+  column of a pascal's triangle )
+
+	2dup
+	fact	\ factorial of the column
+	swap
+	fact	\ factorial of the row
+	2swap
+	-
+	fact	\ factorial of (row - column)
+	rot
+	* / ;
+
+
+: pascal ( n -- )
+( draws the pascal's triangle up to row no. n )
+
+	cr
+	1 + 0 do
+		i 1 + 0 do
+			j i binomial . ." "
+		loop
+		cr
+	loop ;
+
+
+\ output the pascal's triangle from row 0 to 12
+12 pascal
